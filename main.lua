@@ -1,19 +1,28 @@
--- Load some default values for our rectangle.
+-- Load objects types and other predefined data for the game
 function love.load()
-    obj_player = {x = 1, y = 1, xspd = 0, yspd = 0, grounded = false}
-    obj_ground = {y = 100, h = 100}
-    
+    width, height = love.graphics.getDimensions( )
+    obj_player = {x = 1, y = 1, xspd = 0, yspd = 0, grounded = false, sprite = {index = "src/sprites/spr_player.png", image = 0}, visible = 0, script = "src/scripts/script_player.lua"}
+
+    -- Definition du sol
+    ground = {y = 500, h = 100}
+    function ground.draw()
+        love.graphics.rectangle("fill", 0, ground.y, width, ground.h)
+    end
+    -- Création de la liste des instances
+    instanced = {}
 end
 
 
 
--- Increase the size of the rectangle every frame.
+
 function love.update(dt)
 
 end
 
--- Draw a coloured rectangle.
+
 function love.draw()
     -- In versions prior to 11.0, color component values are (0, 102, 102)
-    obj_ground.draw()
+        love.graphics.setColor(0, 0.4, 0.4)
+        ground.draw()
+
 end
