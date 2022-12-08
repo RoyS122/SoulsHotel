@@ -21,7 +21,7 @@ end
 function love.load()
     width, height = love.graphics.getDimensions( )
     -- Objet player
-    obj_player = {x = 1, y = 1, xspd = 0, yspd = 0, grounded = false, sprite = {index = "src/sprites/spr_player.png", image = 0}, visible = 1, jump = 50}
+    obj_player = {x = 1, y = 1, xspd = 0, yspd = 0, grounded = false, sprite = {index = "src/sprites/spr_player.png", image = 0}, visible = true, jump = 50}
     -- Fonctions(methodes) de l'objet player
     function obj_player.isGrounded()
         local img = love.graphics.newImage(obj_player.sprite.index)
@@ -56,11 +56,20 @@ function love.load()
     end
 
     function obj_player.draw()
-
-        love.graphics.draw(love.graphics.newImage(obj_player.sprite.index), obj_player.x, obj_player.y)
+        if obj_player.visible then
+            love.graphics.draw(love.graphics.newImage(obj_player.sprite.index), obj_player.x, obj_player.y)
+        end
     end
 
+    obj_ennemy_runner = {x = 1, y = 1, xspd = 0, yspd = 0, grounded = false, sprite = {index = "src/sprites/spr_ennemy1.png", image = 0}, visible = true}
+    function obj_ennemy_runner.step()
 
+    end
+    function obj_ennemy_runner.draw()
+        if obj_ennemy_runner.visible then
+            love.graphics.draw(love.graphics.newImage(obj_ennemy_runner.sprite.index), obj_ennemy_runner.x, obj_ennemy_runner.y)
+        end
+    end
 
     -- Definition du sol
     ground = {y = 500, h = 100}
@@ -85,22 +94,18 @@ function love.update(dt)
         end
     end
 
-
-
-
-
 end
 
 
 function love.draw()
     -- In versions prior to 11.0, color component values are (0, 102, 102)
-        love.graphics.setColor(255, 255, 255)
-        ground.draw()
-        love.graphics.setColor(0, 0.4, 0.4)
-        for ins_upd = 1, #instanced do
-            if instanced[ins_upd].draw() ~= nil then
-                instanced[ins_upd].draw()
-            end
+    love.graphics.setColor(255, 255, 255)
+    ground.draw()
+    love.graphics.setColor(0, 0.4, 0.4)
+    for ins_upd = 1, #instanced do
+        if instanced[ins_upd].draw() ~= nil then
+            instanced[ins_upd].draw()
         end
+    end
 
 end
