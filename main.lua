@@ -14,23 +14,8 @@ end
 
 -- Load objects types and other predefined data for the game
 function love.load()
+    
     width, height = love.graphics.getDimensions( )
-    -- Objet player
-   
-    -- Fonctions(methodes) de l'objet player
-   
-    
-    
-    
-    -- table = {}  -- Construction de la table.    
- 
-    -- mt = {} -- Construction de la métatable.
- 
-    -- mt._index(obj_ennemy_runner)   -- Construction de __index.
-
-    -- print(mt)
-    
-
 
     -- Definition du sol
     ground = {y = 500, h = 100}
