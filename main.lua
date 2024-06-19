@@ -1,6 +1,7 @@
 local dossier1_path = "src/modules/?.lua"
 package.path = dossier1_path .. ";" .. package.path
 
+Collision = require("collisions")
 Engine = require("engine")
 Ennemy = require("ennemy")
 Player = require("player")

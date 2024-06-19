@@ -3,9 +3,8 @@
 local ennemy = {}
 
 function ennemy:new(xPos, yPos) 
-    local instance = {x = xPos, y = yPos, xspd = 0, yspd = 0, grounded = false, sprite = {index = "src/sprites/spr_ennemy1.png", image = 0, loaded = 0}, visible = true, collision = CollisionBox:new(0,0,0,0)}
+    local instance = {x = xPos, y = yPos, xspd = 0, yspd = 0, grounded = false, sprite = {index = "src/sprites/spr_ennemy1.png", image = 0, loaded = 0}, visible = true, collision = Collision:new(0,0,0,0)}
     instance.sprite.loaded = love.graphics.newImage(instance.sprite.index)
-    instance.collision = CollisionBox:new(0, 0, instance.sprite.loaded:getWidth(), instance.sprite.loaded:getHeight())
     setmetatable(instance, {__index = ennemy})
     return instance
 end

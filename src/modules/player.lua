@@ -4,9 +4,9 @@ local player = {}
 
 
 function player:new(xPos, yPos) 
-    local instance = {x = xPos, y = yPos, xspd = 0, yspd = 0, grounded = false, sprite = {index = "src/sprites/spr_player.png", image = 0, loaded = 0}, visible = true, jump = 50, collision = CollisionBox:new(0,0,0,0)}
+    local instance = {x = xPos, y = yPos, xspd = 0, yspd = 0, grounded = false, sprite = {index = "src/sprites/spr_player.png", image = 0, loaded = 0}, visible = true, jump = 50, collision = Collision:new(0,0,0,0)}
     instance.sprite.loaded = love.graphics.newImage(instance.sprite.index)
-    instance.collision = CollisionBox:new(0, 0, instance.sprite.loaded:getWidth(), instance.sprite.loaded:getHeight())
+    instance.collision = Collision:new(0, 0, instance.sprite.loaded:getWidth(), instance.sprite.loaded:getHeight())
     setmetatable(instance, {__index = player})
     return instance
 end
@@ -43,9 +43,9 @@ function player:step()
         end
     end
     
-    if self.collision:collideWith(instanced[2].collision ,self.x, self.y) then 
-        self.yspd = -100
-    end
+    -- if self.collision:collideWith(instanced[2].collision ,self.x, self.y) then 
+    --     self.yspd = -100
+    -- end
 --    self.y = self.y + self.yspd
 end
 
