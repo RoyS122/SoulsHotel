@@ -1,12 +1,14 @@
---local Engine = require("engine")
-
+local gO = require("gameobject")
 local player = {}
-
+setmetatable(player, {__index = gO})
 
 function player:new(xPos, yPos) 
-    local instance = {x = xPos, y = yPos, xspd = 0, yspd = 0, grounded = false, sprite = {index = "src/sprites/spr_player.png", image = 0, loaded = 0}, visible = true, jump = 50, collision = Collision:new(0,0,0,0)}
+    local instance = gO:new(xPos, yPos)
+    instance.grounded = false
+    instance.sprite.index  = "src/sprites/player.png"
     instance.sprite.loaded = love.graphics.newImage(instance.sprite.index)
-    instance.collision = Collision:new(0, 0, instance.sprite.loaded:getWidth(), instance.sprite.loaded:getHeight())
+    instance.animation = {col = 4, row = 1, speed = 2, step = 0, timer = 0}
+    instance.collision = Collision:new(0, 0, instance.sprite.loaded:getWidth() / instance.animation.col, instance.sprite.loaded:getHeight()/ instance.animation.row)
     setmetatable(instance, {__index = player})
     return instance
 end
@@ -24,6 +26,7 @@ end
 
 function player:step()
 --    self.x = self.x + 1
+
     self.grounded = self:isGrounded();
 
     if self.grounded then
@@ -31,6 +34,11 @@ function player:step()
     else
         self.yspd = self.yspd + 1;
     end
+
+--     if self:collideWith(instanced[2], self.x, self.y) then 
+--         self.yspd = -100
+--         self:kill()
+--    end
 
     if self.grounded and love.keyboard.isDown("space") then
         self.yspd = -20
@@ -43,16 +51,22 @@ function player:step()
         end
     end
     
-    -- if self.collision:collideWith(instanced[2].collision ,self.x, self.y) then 
-    --     self.yspd = -100
-    -- end
 --    self.y = self.y + self.yspd
 end
 
 function player:draw()
     if self.visible then
-        love.graphics.draw(love.graphics.newImage(self.sprite.index), self.x, self.y)
+        self.animation.timer = self.animation.timer + 1
+        if self.animation.timer > fps / self.animation.speed then 
+            self.animation.step = (self.animation.step + 1) % (self.animation.col * self.animation.row)
+            self.animation.timer = 0
+        end
+
+        local xSprite = self.animation.step % self.animation.col * (self.sprite.loaded:getWidth() / self.animation.col)
+        local ySprite = math.floor( self.animation.step / self.animation.col) * (self.sprite.loaded:getHeight() / self.animation.row)
+        love.graphics.draw(self.sprite.loaded, love.graphics.newQuad(xSprite, ySprite, self.sprite.loaded:getWidth() / self.animation.col , self.sprite.loaded:getHeight() / self.animation.row, self.sprite.loaded:getDimensions()),self.x, self.y)
     end
 end
+
 
 return player 
