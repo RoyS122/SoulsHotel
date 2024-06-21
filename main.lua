@@ -10,6 +10,10 @@ fps = 60
 local timerFPScount = 0
 local frames = 0
 
+global_timer = 0 
+
+score = 0
+
 math.randomseed(os.time())
 local ennemyGenerationClock = math.random(3, 10) * fps
 
@@ -37,6 +41,8 @@ end
 function love.update(dt)
     -- Mise à jour des instances
     --fps = dt 
+    score = global_timer / fps * 10
+    global_timer = global_timer +  1 
     frames = frames + 1 
     timerFPScount = timerFPScount + dt
     if timerFPScount > 1 then 
@@ -76,5 +82,6 @@ function love.draw()
     end
 
     love.graphics.setColor(255, 255, 255)
-    love.graphics.print(fps, 100, 100)
+    love.graphics.print("fps: "..fps, 100, 100)
+    love.graphics.print("score: ".. math.floor(score), 500, 100)
 end

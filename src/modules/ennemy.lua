@@ -6,9 +6,10 @@ setmetatable(ennemy, {__index = gO})
 function ennemy:new(xPos, yPos) 
     local instance = gO:new(xPos, yPos)
     instance.grounded = false
-    instance.sprite = {index = "src/sprites/spr_ennemy1.png", image = 0, loaded = 0}
+    instance.sprite = {index = "src/sprites/spr_ennemy1.png", image = 0, loaded = 0, xscale = 1, yscale = 1}
     instance.sprite.loaded = love.graphics.newImage(instance.sprite.index)
     instance.collision = Collision:new(0, 0, instance.sprite.loaded:getWidth(), instance.sprite.loaded:getHeight())
+    instance.xspd = -1 * math.random(3, 10)
     setmetatable(instance, {__index = ennemy})
     return instance
 end
@@ -24,12 +25,10 @@ end
 
 function ennemy:step()
    -- print(self.x)
-    if self.x >= 0 then
-        self.xspd = -3
-    else
+    if self.x <= 0 then
         self:kill()
-        self.xspd = 0
     end
+    
     self.grounded = self:isGrounded();
 
     if self.grounded then

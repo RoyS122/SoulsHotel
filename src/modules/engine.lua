@@ -18,5 +18,12 @@ function engine.abs(number)
     return number
 end
 
-
+function engine.saveHS(hsTab) {
+    local success, message =love.filesystem.write( filename, hsTab)
+    if success then 
+	    print ('Fichier créé')
+    else 
+	    print ('Fichier non créé : '..message)
+    end
+}
 return engine
