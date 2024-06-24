@@ -22,6 +22,7 @@ function love.conf(t)
 end
 
 function love.load()
+    love.graphics.setDefaultFilter("nearest", "nearest")
     width, height = love.graphics.getDimensions()
 
     -- Définition du sol
@@ -71,6 +72,7 @@ function love.update(dt)
 end
 
 function love.draw()
+
     love.graphics.setColor(255, 255, 255)
 
     ground.draw()

@@ -5,9 +5,10 @@ setmetatable(player, {__index = gO})
 function player:new(xPos, yPos) 
     local instance = gO:new(xPos, yPos)
     instance.grounded = false
-    instance.sprite.index  = "src/sprites/spr_player.png"
+    instance.sprite.index  = "src/sprites/spr_player-sheet.png"
     instance.sprite.loaded = love.graphics.newImage(instance.sprite.index)
-    instance.animation = {col = 1, row = 1, speed = 0, step = 0, timer = 0}
+    instance.sprite.scale = 2
+    instance.animation = {col = 5, row = 1, speed = 2, step = 0, timer = 0}
     instance.collision = Collision:new(0, 0, instance.sprite.loaded:getWidth() / instance.animation.col, instance.sprite.loaded:getHeight()/ instance.animation.row)
     setmetatable(instance, {__index = player})
     return instance
@@ -64,7 +65,7 @@ function player:draw()
 
         local xSprite = self.animation.step % self.animation.col * (self.sprite.loaded:getWidth() / self.animation.col)
         local ySprite = math.floor( self.animation.step / self.animation.col) * (self.sprite.loaded:getHeight() / self.animation.row)
-        love.graphics.draw(self.sprite.loaded, love.graphics.newQuad(xSprite, ySprite, self.sprite.loaded:getWidth() / self.animation.col , self.sprite.loaded:getHeight() / self.animation.row, self.sprite.loaded:getDimensions()),self.x, self.y)
+        love.graphics.draw(self.sprite.loaded, love.graphics.newQuad(xSprite, ySprite, self.sprite.loaded:getWidth() / self.animation.col , self.sprite.loaded:getHeight() / self.animation.row, self.sprite.loaded:getDimensions()),self.x, self.y, 0, self.sprite.scale, self.sprite.scale)
     end
 end
 
