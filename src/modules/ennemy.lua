@@ -6,6 +6,7 @@ setmetatable(ennemy, {__index = gO})
 function ennemy:new(xPos, yPos) 
     local instance = gO:new(xPos, yPos)
     instance.grounded = false
+    instance.group = {"ennemy"}
     instance.sprite = {index = "src/sprites/spr_ennemy1.png", image = 0, loaded = 0, xscale = 1, yscale = 1}
     instance.sprite.loaded = love.graphics.newImage(instance.sprite.index)
     instance.collision = Collision:new(0, 0, instance.sprite.loaded:getWidth(), instance.sprite.loaded:getHeight())

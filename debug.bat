@@ -1,3 +1,3 @@
 
-"C:\Users\rexga\Downloads\love-11.4-win64\love-11.4-win64\love.exe" "C:\Users\rexga\GIT\SoulsHotel"
+"C:\Users\rexga\GIT\love-11.5-win64\lovec.exe" "C:\Users\rexga\GIT\SoulsHotel"
 pause

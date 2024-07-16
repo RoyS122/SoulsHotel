@@ -36,13 +36,13 @@ function player:step()
         self.yspd = self.yspd + 1;
     end
 
---     if self:collideWith(instanced[2], self.x, self.y) then 
---         self.yspd = -100
---         self:kill()
---    end
 
     if self.grounded and love.keyboard.isDown("space") then
         self.yspd = -20
+    end
+
+    if self:collideWithGroup("ennemy", instanced, self.x, self.y) then
+        self:kill()
     end
 
     for i = 1, Engine.abs(self.yspd) do

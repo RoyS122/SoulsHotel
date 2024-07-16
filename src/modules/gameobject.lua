@@ -1,7 +1,7 @@
 local gameobject = {}
 
 function gameobject:new(posX, posY) 
-    instance = {x = posX, y = posY, xspd = 0, yspd = 0, toKill = false, sprite = {index = "src/sprites/spr_player.png", image = 0, loaded = 0, quads={}}, visible = true, collision = Collision:new(0,0,0,0)}
+    instance = {x = posX, y = posY, xspd = 0, yspd = 0, toKill = false, group = {}, sprite = {index = "src/sprites/spr_player.png", image = 0, loaded = 0, quads={}}, visible = true, collision = Collision:new(0,0,0,0)}
     setmetatable(instance, {__index = gameobject})
     return instance
 end
@@ -22,6 +22,21 @@ function gameobject:collideWith(obj, x, y)
     else
         return false    
     end
+end
+
+function gameobject:collideWithGroup(group, array, x, y)
+   
+    if (array ~= nil and group ~= nil) then 
+        for i = 1, #array do 
+            if Engine.array_contains(self.group, group) then 
+                if self:collideWith(array[i], x, y) then
+                    print("test")
+                    return true
+                end
+            end
+        end
+    end
+    return false
 end
 
 return gameobject

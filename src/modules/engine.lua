@@ -27,4 +27,12 @@ function engine.saveHS(hsTab)
     end
 end
 
+function engine.array_contains(arr, s)
+    for i = 1, #arr do 
+        if arr[i] == s then 
+            return true 
+        end
+    end
+    return false
+end 
 return engine
