@@ -27,10 +27,12 @@ end
 function gameobject:collideWithGroup(group, array, x, y)
    
     if (array ~= nil and group ~= nil) then 
-        for i = 1, #array do 
-            if Engine.array_contains(self.group, group) then 
+        for i = 1, #array do
+           
+            if Engine.array_contains(array[i].group, group) then 
+               
                 if self:collideWith(array[i], x, y) then
-                    print("test")
+                    
                     return true
                 end
             end

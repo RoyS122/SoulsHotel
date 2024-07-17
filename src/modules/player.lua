@@ -9,16 +9,14 @@ function player:new(xPos, yPos)
     instance.sprite.loaded = love.graphics.newImage(instance.sprite.index)
     instance.sprite.scale = 2
     instance.animation = {col = 5, row = 1, speed = 2, step = 0, timer = 0}
-    instance.collision = Collision:new(0, 0, instance.sprite.loaded:getWidth() / instance.animation.col, instance.sprite.loaded:getHeight()/ instance.animation.row)
+    instance.collision = Collision:new(0, 0, instance.sprite.loaded:getWidth() / instance.animation.col * instance.sprite.scale, instance.sprite.loaded:getHeight() / instance.animation.row * instance.sprite.scale)
     setmetatable(instance, {__index = player})
     return instance
 end
 
-
-
 function player:isGrounded()
     local img = self.sprite.loaded
-    if self.y + img:getHeight() >= ground.y then
+    if self.y + img:getHeight() * self.sprite.scale >= ground.y then
         return true
     else
         return false
