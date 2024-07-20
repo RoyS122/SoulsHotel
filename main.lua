@@ -3,7 +3,8 @@ package.path = dossier1_path .. ";" .. package.path
 
 Collision = require("collisions")
 Engine = require("engine")
-Ennemy = require("ennemy")
+Ennemies = {require("ennemy_runner"), require("ennemy_jumper"), require("ennemy_flyer")}
+ 
 Player = require("player")
 
 fps = 60
@@ -12,6 +13,7 @@ local frames = 0
 
 global_timer = 0 
 
+max_ennemie = 1;
 score = 0
 
 math.randomseed(os.time())
@@ -35,14 +37,13 @@ function love.load()
     instanced = {}
     -- Ajout de l'objet joueur
     table.insert(instanced, Player:new(100, 1))
-    table.insert(instanced, Ennemy:new(500, 1))
-    table.insert(instanced, Ennemy:new(900, 1))
 end
 
 function love.update(dt)
     -- Mise à jour des instances
     --fps = dt 
     score = global_timer / fps * 10
+    
     global_timer = global_timer +  1 
     frames = frames + 1 
     timerFPScount = timerFPScount + dt
@@ -66,7 +67,7 @@ function love.update(dt)
         ennemyGenerationClock = ennemyGenerationClock - 1
     else
         width, _ = love.graphics.getDimensions()
-        table.insert(instanced, Ennemy:new(width, 1))
+        table.insert(instanced, Ennemies[math.random(1, #Ennemies)]:new(width + 30, 1))
         ennemyGenerationClock = math.random(3, 10) *  fps
     end
 end
@@ -84,6 +85,7 @@ function love.draw()
     end
 
     love.graphics.setColor(255, 255, 255)
+
     love.graphics.print("fps: "..fps, 100, 100)
     love.graphics.print("score: ".. math.floor(score), 500, 100)
 end
