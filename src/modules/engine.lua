@@ -28,11 +28,9 @@ function engine.saveHS(hsTab)
 end
 
 function engine.array_contains(arr, s)
-    print("test", #arr)
     for i = 1, #arr do 
-        print("test", i)
         if arr[i] == s then 
-            print("test checked")
+         
             return true 
         end
     end

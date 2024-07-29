@@ -7,10 +7,12 @@ function ennemy:new(xPos, yPos)
     local instance = gO:new(xPos, yPos)
     instance.grounded = false
     instance.group = {"ennemy"}
-    instance.sprite = {index = "src/sprites/spr_ennemy1.png", image = 0, loaded = 0, xscale = 1, yscale = 1}
+    instance.sprite = {index = "src/sprites/spr_ennemy_runner.png", image = 0, loaded = 0, xscale = 1, yscale = 1}
     instance.sprite.loaded = love.graphics.newImage(instance.sprite.index)
+    instance.sprite.scale = 2
+    instance.animation = {col = 10, row = 1, speed = 5, step = 0, timer = 0}
     instance.collision = Collision:new(0, 0, instance.sprite.loaded:getWidth(), instance.sprite.loaded:getHeight())
-    instance.xspd = -1 * math.random(3, 10)
+    instance.xspd = -1 * math.random(4, 11)
     setmetatable(instance, {__index = ennemy})
     return instance
 end
@@ -52,7 +54,15 @@ end
 
 function ennemy:draw()
     if self.visible then
-        love.graphics.draw(love.graphics.newImage(self.sprite.index), self.x, self.y)
+        self.animation.timer = self.animation.timer + 1
+        if self.animation.timer > fps / self.animation.speed then 
+            self.animation.step = (self.animation.step + 1) % (self.animation.col * self.animation.row)
+            self.animation.timer = 0
+        end
+
+        local xSprite = self.animation.step % self.animation.col * (self.sprite.loaded:getWidth() / self.animation.col)
+        local ySprite = math.floor( self.animation.step / self.animation.col) * (self.sprite.loaded:getHeight() / self.animation.row)
+        love.graphics.draw(self.sprite.loaded, love.graphics.newQuad(xSprite, ySprite, self.sprite.loaded:getWidth() / self.animation.col , self.sprite.loaded:getHeight() / self.animation.row, self.sprite.loaded:getDimensions()),self.x, self.y, 0, self.sprite.scale, self.sprite.scale)
     end
 end
 

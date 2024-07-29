@@ -10,7 +10,7 @@ function ennemy:new(xPos, yPos)
     instance.sprite = {index = "src/sprites/spr_ennemy1.png", image = 0, loaded = 0, xscale = 1, yscale = 1}
     instance.sprite.loaded = love.graphics.newImage(instance.sprite.index)
     instance.collision = Collision:new(0, 0, instance.sprite.loaded:getWidth(), instance.sprite.loaded:getHeight())
-    instance.xspd = -1 * math.random(3, 10)
+    instance.xspd = -1 * math.random(6, 12)
     instance.y = math.random(300, 470)
     setmetatable(instance, {__index = ennemy})
     return instance

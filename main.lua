@@ -4,8 +4,11 @@ package.path = dossier1_path .. ";" .. package.path
 Collision = require("collisions")
 Engine = require("engine")
 Ennemies = {require("ennemy_runner"), require("ennemy_jumper"), require("ennemy_flyer")}
+
  
 Player = require("player")
+
+screen = "MainMenu";
 
 fps = 60
 local timerFPScount = 0
@@ -18,10 +21,6 @@ score = 0
 
 math.randomseed(os.time())
 local ennemyGenerationClock = math.random(3, 10) * fps
-
-function love.conf(t)
-    t.console = true
-end
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
@@ -40,36 +39,19 @@ function love.load()
 end
 
 function love.update(dt)
-    -- Mise à jour des instances
-    --fps = dt 
-    score = global_timer / fps * 10
-    
-    global_timer = global_timer +  1 
-    frames = frames + 1 
-    timerFPScount = timerFPScount + dt
-    if timerFPScount > 1 then 
-        fps = frames
-        frames = 0
-        timerFPScount = 0
+    if screen == nil then
+        gameloop(dt)
     end
-
-    for i = #instanced, 1, -1 do
-        local instance = instanced[i]
-        if instance.toKill then
-            table.remove(instanced, i)
-        else
-            instance:step()
+    if screen == "MainMenu" then
+        if love.keyboard.isDown("return") then
+            screen = nil;
         end
     end
 
-    -- Génération des ennemis
-    if ennemyGenerationClock > 0 then 
-        ennemyGenerationClock = ennemyGenerationClock - 1
-    else
-        width, _ = love.graphics.getDimensions()
-        table.insert(instanced, Ennemies[math.random(1, #Ennemies)]:new(width + 30, 1))
-        ennemyGenerationClock = math.random(3, 10) *  fps
+    if screen == "GameOver" then
+        
     end
+   
 end
 
 function love.draw()
@@ -88,4 +70,40 @@ function love.draw()
 
     love.graphics.print("fps: "..fps, 100, 100)
     love.graphics.print("score: ".. math.floor(score), 500, 100)
+end
+
+
+
+function gameloop(dt) 
+    if screen == nil then
+        score = global_timer / fps * 10
+    
+        global_timer = global_timer +  1 
+        frames = frames + 1 
+        timerFPScount = timerFPScount + dt
+        if timerFPScount > 1 then 
+            fps = frames
+            frames = 0
+            timerFPScount = 0
+        end
+    
+        for i = #instanced, 1, -1 do
+            local instance = instanced[i]
+            if instance.toKill then
+                table.remove(instanced, i)
+            else
+                instance:step()
+            end
+        end
+    
+        -- Génération des ennemis
+        if ennemyGenerationClock > 0 then 
+            ennemyGenerationClock = ennemyGenerationClock - 1
+        else
+            width, _ = love.graphics.getDimensions()
+            table.insert(instanced, Ennemies[math.random(1, #Ennemies)]:new(width + 30, 1))
+            ennemyGenerationClock = math.random(3, 10) *  fps
+        end
+    end
+
 end

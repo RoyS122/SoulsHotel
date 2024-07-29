@@ -1,4 +1,0 @@
-local Screen = {}
-
-
-return Screen
