@@ -9,7 +9,7 @@ function player:new(xPos, yPos)
     instance.sprite.loaded = love.graphics.newImage(instance.sprite.index)
     instance.sprite.scale = 2
     instance.animation = {col = 5, row = 1, speed = 2, step = 0, timer = 0}
-    instance.collision = Collision:new(0, 0, instance.sprite.loaded:getWidth() / instance.animation.col * instance.sprite.scale, instance.sprite.loaded:getHeight() / instance.animation.row * instance.sprite.scale)
+    instance.collision = Collision:new(5, 0, instance.sprite.loaded:getWidth() / instance.animation.col * instance.sprite.scale - 10, instance.sprite.loaded:getHeight() / instance.animation.row * instance.sprite.scale - 10)
     setmetatable(instance, {__index = player})
     return instance
 end
@@ -41,6 +41,8 @@ function player:step()
 
     if self:collideWithGroup("ennemy", instanced, self.x, self.y) then
         self:kill()
+        screen = "GameOver";
+
     end
 
     for i = 1, Engine.abs(self.yspd) do

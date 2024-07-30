@@ -11,7 +11,7 @@ function ennemy:new(xPos, yPos)
     instance.sprite.loaded = love.graphics.newImage(instance.sprite.index)
     instance.sprite.scale = 2
     instance.animation = {col = 10, row = 1, speed = 5, step = 0, timer = 0}
-    instance.collision = Collision:new(0, 0, instance.sprite.loaded:getWidth(), instance.sprite.loaded:getHeight())
+    instance.collision = Collision:new(10, 0, instance.sprite.loaded:getWidth() - 10, instance.sprite.loaded:getHeight())
     instance.xspd = -1 * math.random(4, 11)
     setmetatable(instance, {__index = ennemy})
     return instance
@@ -19,7 +19,7 @@ end
 
 function ennemy:isGrounded()
     local img = self.sprite.loaded
-    if self.y + img:getHeight() >= ground.y then
+    if self.y + img:getHeight() * self.sprite.scale >= ground.y then
         return true
     else
         return false
@@ -35,8 +35,11 @@ function ennemy:step()
     self.grounded = self:isGrounded();
 
     if self.grounded then
+        self.x = self.x + self.xspd
         self.yspd = 0
+    
     else
+       
         self.yspd = self.yspd + 1;
     end
 
@@ -47,7 +50,7 @@ function ennemy:step()
         end
     end
 
-    self.x = self.x + self.xspd
+    
     
 
 end

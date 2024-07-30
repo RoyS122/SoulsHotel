@@ -14,48 +14,45 @@ fps = 60
 local timerFPScount = 0
 local frames = 0
 
+
+
 global_timer = 0 
 
 max_ennemie = 1;
 score = 0
 
+
 math.randomseed(os.time())
 local ennemyGenerationClock = math.random(3, 10) * fps
-
+width, height = love.graphics.getDimensions()
 function love.load()
-    love.graphics.setDefaultFilter("nearest", "nearest")
-    width, height = love.graphics.getDimensions()
 
-    -- Définition du sol
-    ground = {y = 500, h = 100}
+    -- Definition du sol
+ground = {y = 500, h = 100}
     function ground.draw()
         love.graphics.rectangle("fill", 0, ground.y, width, ground.h)
     end
+instanced = {}
 
-    -- Création de la liste des instances
-    instanced = {}
-    -- Ajout de l'objet joueur
-    table.insert(instanced, Player:new(100, 1))
 end
+
 
 function love.update(dt)
     if screen == nil then
         gameloop(dt)
     end
     if screen == "MainMenu" then
-        if love.keyboard.isDown("return") then
-            screen = nil;
-        end
+        mainmenu()
     end
 
     if screen == "GameOver" then
-        
+        gameover()
     end
    
 end
 
 function love.draw()
-
+    love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setColor(255, 255, 255)
 
     ground.draw()
@@ -104,6 +101,38 @@ function gameloop(dt)
             table.insert(instanced, Ennemies[math.random(1, #Ennemies)]:new(width + 30, 1))
             ennemyGenerationClock = math.random(3, 10) *  fps
         end
+    end
+
+end
+
+
+function gameinit()
+    global_timer = 0 
+
+    max_ennemie = 1;
+    score = 0
+
+    -- Création de la liste des instances
+    instanced = {}
+    -- Ajout de l'objet joueur
+    table.insert(instanced, Player:new(100, 1))
+end
+
+
+function mainmenu() 
+    
+    if love.keyboard.isDown("return") then
+        gameinit();
+        screen = nil;
+    end
+end
+
+
+function gameover() 
+
+    if love.keyboard.isDown("return") then
+        gameinit();
+        screen = nil;
     end
 
 end
